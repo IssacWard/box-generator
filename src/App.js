@@ -1,25 +1,64 @@
-import logo from './logo.svg';
 import './App.css';
+import BoxForm from './Components/BoxForm';
+import BoxDisplay from './Components/BoxDisplay';
+import React, { useState } from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
+
+  const [form, setForm] = useState({
+    color:"",
+    width:100,
+    height:100
+  })
+
+  const handleForm = e =>{
+    setForm({
+      ...form,
+      [e.target.name]:e.target.value
+    })
+  }
+
+  const [colors, setColors] = useState([
+    {
+      color: "black",
+      width: 100,
+      height: 100
+    },
+    {
+      color:"red",
+      width: 100,
+      height: 100
+    }
+  ])
+
+  const handleColor = e =>{
+    e.preventDefault();
+    setColors([...colors,form]);
+    setForm({
+      color:"",
+      width:100,
+      height:100
+    })
+  }
+    
+    return (
+      <>
+        <BoxForm inputs={form} handleForm={handleForm} handleSubmit={handleColor}/>
+        <div>
+          {
+            colors.map((aColor,i)=>{
+              return <BoxDisplay 
+                        key={i}
+                        color={aColor.color}
+                        width={aColor.width}
+                        height={aColor.height}
+                      />
+            })
+          }
+        </div>
+      </>
+    );
+}
+  
 export default App;
